@@ -1,6 +1,6 @@
 import os
 from app import app, db, login_manager
-from flask import render_template, request, redirect, url_for, flash, session, abort
+from flask import render_template, request, redirect, url_for, flash, session, abort, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.utils import secure_filename
 from app.models import UserProfile
@@ -115,3 +115,31 @@ def add_header(response):
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
+
+def get_uploaded_images():
+    """Helper function to get a list of uploaded image filenames."""
+    # Get the absolute path to the uploads folder
+    upload_folder = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'])
+    images = []
+
+    # Walk through the folder and collect image files
+    for subdir, dirs, files in os.walk(upload_folder):
+        for file in files:
+            if file.lower().endswith(('.png', '.jpg', '.jpeg')):
+                images.append(file)
+
+    return images
+
+
+
+@app.route('/Uploads/<filename>', methods=['GET'])
+@login_required
+def get_image(filename):
+    """Route to serve uploaded images."""
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/files' , methods=['GET'])
+def files():
+    """Route to display all uploaded images."""
+    images = get_uploaded_images()
+    return render_template('files.html', images=images)
