@@ -39,7 +39,7 @@ def upload():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         flash('File Saved', 'success')
-        return redirect(url_for('home')) # Update this to redirect the user to a route that displays all uploaded image files
+        return redirect(url_for('files')) # Update this to redirect the user to a route that displays all uploaded image files
 
     return render_template('upload.html' , form=form)
 
@@ -132,13 +132,14 @@ def get_uploaded_images():
 
 
 
-@app.route('/Uploads/<filename>', methods=['GET'])
+@app.route('/uploads/<filename>', methods=['GET'])
 @login_required
 def get_image(filename):
     """Route to serve uploaded images."""
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/files' , methods=['GET'])
+@login_required
 def files():
     """Route to display all uploaded images."""
     images = get_uploaded_images()

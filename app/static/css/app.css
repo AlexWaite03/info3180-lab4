@@ -18,3 +18,20 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+.img-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.gallery-file{
+    text-align: center;
+}
+
+.gallery-file img {
+    max-width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 0px;
+}

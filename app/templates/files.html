@@ -5,13 +5,13 @@
 
   {% include 'flash_messages.html' %}
 
-  <ul>
+    <div class = "img-gallery">
     {% for image in images %}
-      <li>
-        <img src="{{ url_for('static', filename='uploads/' ~ image) }}" 
-             alt="{{ image }}" class="img-thumbnail" style="max-width:200px;">
-        <p>{{ image }}</p>
-      </li>
+      
+        <div class="gallery-file">
+            <img src="{{ url_for('get_image', filename=image) }}" alt="{{ image }}" class="img-thumbnail">
+            <p>{{ image }}</p>
+        </div>
     {% endfor %}
-  </ul>
+    </div>
 {% endblock %}
